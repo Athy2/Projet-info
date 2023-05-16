@@ -307,6 +307,67 @@ int i,j,k;
     printf("\n +----+----+----+----+----+----+----+----+----+----+\n"); // Ligne inférieure de séparation
 }
 
+
+
+void echange(case_tableau tab[TAILLE][TAILLE]){
+  int a1, b1, a2, b2;    //a1 : ligne de la 1ère case à échanger et b1 : colonne de cette 1ère case
+                         // pareil pour a2 et b2
+  srand(time(NULL));
+  int erreur=0; 
+  //pour faire une boucle : recommencer après chaque échange
+
+  while(erreur==0){ 
+    char case1, case2;
+      
+    a1=-2;       //valeur au pif pour rentrer dans les 2 boucles
+    b1=-2;
+    while (a1<0 || a1>9 || b1<0 || b1>9 ){  //pour vérifier l'inverse : on veut que les a et b soient compris entre 0 et 9 inclus
+      printf("Donnez les coordonnées de la 1ère case : ligne, puis colonne\n"); 
+      scanf("%d",&a1);
+      scanf("%d",&b1);
+    }
+    case1=tab[a1][b1].caractere;
+    printf("case1 = %c\n",case1);
+
+    a2=-2;
+    b2=-2;
+    while (a2<0 || a2>9 || b2<0 || b2>9){
+      printf("Donnez les coordonnées de la 2nd case : ligne, puis colonne\n");
+      scanf("%d",&a2);
+      scanf("%d",&b2);
+    }
+    case2=tab[a2][b2].caractere;
+    printf("case2 = %c\n",case2);
+
+    
+  if (((a1==a2)&&((b1==b2+1)||(b1==b2-1))) || ((b1==b2)&&((a1==a2+1)||(a1==a2-1)))){  //condition pour vérifier que les cases soient à côtés ou au-dessus/dessous
+    printf("ok\n");
+    case1=tab[a2][b2].caractere;    //échange de la case1 par la case2
+    case2=tab[a1][b1].caractere;    //pareil mais pour case2 par case1
+    printf("case 1 échangée : %c\n",case1);   //affichage pour vérifier
+    printf("case 2 échangée : %c\n",case2);
+  }
+  else if((a1==a2)&&((b1==0 && b2==9)||(b1==9 && b2==0))){    //condition spéciale où les 2 cases à échanger sont aux extrêmités de la même ligne
+    printf("ok ligne\n");  //pour vérifier cette codition
+    case1=tab[a2][b2].caractere;     //échange
+    case2=tab[a1][b1].caractere;     
+    printf("case 1 échangée : %c\n",case1);
+    printf("case 2 échangée : %c\n",case2);
+  }
+  else if((b1==b2)&&((a1==0 && a2==9)||(a1==9 && a2==0))){ //condition spéciale où les 2 cases à échanger sont aux extrêmités de la même colonne
+    printf("ok colonne\n");
+    case1=tab[a2][b2].caractere;
+    case2=tab[a1][b1].caractere;
+    printf("case 1 échangée : %c\n",case1);
+    printf("case 2 échangée : %c\n",case2);
+  }
+  else {  //erreur car : coordonnées corresponds pas ou cases pas à côtés
+    printf("\nErreur\nRefaire:\n\n");
+  }
+}  
+}
+
+
 int main()
 {
     int ol,oc; //optimisation fin du k en ligne et colonne 
@@ -322,6 +383,7 @@ int main()
     Affichage(tab);
     remplacement(tab);
     Affichagemoji(tab);
+    echange(tab);
     
     return 0;
 }
